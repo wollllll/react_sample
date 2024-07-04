@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="icon" type="image/svg+xml" href="/vite.svg"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Vite + React</title>
+</head>
+<body>
+
+<div>
+    <h1>vanilla</h1>
+    <button id="vanilla-js-get">get</button>
+    <table>
+        <thead>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">name</th>
+            <th scope="col">created_at</th>
+        </tr>
+        </thead>
+        <tbody id="vanilla-js-tbody">
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <h1>jQuery</h1>
+    <button id="jquery-get">get</button>
+    <table>
+        <thead>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">name</th>
+            <th scope="col">created_at</th>
+        </tr>
+        </thead>
+        <tbody id="jquery-tbody">
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <h1>React</h1>
+    <div id="root"></div>
+</div>
+<script type="module" src="/src/main.jsx"></script>
+<script type="module">
+    import axios from 'axios'
+    const url = 'https://script.google.com/macros/s/AKfycbw1e8lIZsyPUVIXhxsw5q6gu3BZazXANPR2eypuChTx7xi79PVdjnim85SiYKwJqOnG/exec?route=users'
+
+    document.getElementById('vanilla-js-get').addEventListener('click', async () => {
+        const response = await axios.get(url)
+        const tbody = document.getElementById('vanilla-js-tbody')
+
+        response.data.users.map(user => {
+            const tr = document.createElement('tr')
+            const tdId = document.createElement('td')
+            const tdName = document.createElement('td')
+            const tdCreatedAt = document.createElement('td')
+
+            tdId.textContent = user.id
+            tdName.textContent = user.name
+            tdCreatedAt.textContent = user.created_at
+
+            tr.appendChild(tdId)
+            tr.appendChild(tdName)
+            tr.appendChild(tdCreatedAt)
+
+            tbody.appendChild(tr)
+        })
+    })
+</script>
+
+<script type="module">
+    import axios from 'axios'
+    import $ from 'jquery'
+    const url = 'https://script.google.com/macros/s/AKfycbw1e8lIZsyPUVIXhxsw5q6gu3BZazXANPR2eypuChTx7xi79PVdjnim85SiYKwJqOnG/exec?route=users'
+
+    $('#jquery-get').on('click', async () => {
+        const response = await axios.get(url)
+        const tbody = $('#jquery-tbody')
+
+        response.data.users.map(user => {
+            const tr = $('<tr></tr>');
+
+            tr.append($(`<td>${user.id}</td>`))
+            tr.append($(`<td>${user.name}</td>`))
+            tr.append($(`<td>${user.created_at}</td>`))
+
+            tbody.append(tr)
+        })
+    })
+</script>
+</body>
+</html>
